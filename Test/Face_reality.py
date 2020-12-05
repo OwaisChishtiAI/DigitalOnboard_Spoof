@@ -2,6 +2,7 @@ from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.models import load_model
 from PIL import Image
 import numpy as np
+import logging
 import imutils
 import pickle
 import base64
@@ -80,6 +81,6 @@ class checkReality:
                         j = np.argmax(preds)
                         label = le.classes_[j]
                                 
-#                        logging.info(label)
+                        logging.info(label)
 
                         return placeHolder[label]
