@@ -25,6 +25,7 @@ def _base64_to_image(base_string):
     base_string = Image.open(base_string)
     base_string = np.array(base_string)
     base_string = base_string[:, :, ::-1].copy()
+
     return base_string
 
 
@@ -42,45 +43,43 @@ class checkReality:
         
         frame = cv2.cvtColor(frame, cv2.COLOR_RGBA2RGB)
         
-        try:
-            frame = imutils.resize(frame, width=600)
-        except:
-            logging.warning("fake")
-            return "", 403
-            
-            (h, w) = frame.shape[: 2]
-            blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0, (300, 300), (104.0, 177.0, 123.0))
-                    
-            net.setInput(blob)
-            detections = net.forward()
-                    
-            for i in range(0, detections.shape[2]):
-                confidence = detections[0, 0, i, 2]
-                        
-                if len(detections) > 0:
-                    i = np.argmax(detections[0, 0, :, 2])
-                    confidence = detections[0, 0, i, 2]
-                            
-                    if confidence > 0.5:
-                        box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
-                        (startX, startY, endX, endY) = box.astype("int")
-                        face = frame[startY:endY, startX:endX]
-                                
-                        startX = max(0, startX)
-                        startY = max(0, startY)
-                        endX = min(w, endX)
-                        endY = min(h, endY)
-                                
-                        face = frame[startY:endY, startX:endX]
-                        face = cv2.resize(face, (32, 32))
-                        face = face.astype("float") / 255.0
-                        face = img_to_array(face)
-                        face = np.expand_dims(face, axis=0)
-                                
-                        preds = model.predict(face)[0]
-                        j = np.argmax(preds)
-                        label = le.classes_[j]
-                                
-                        logging.info(label)
+        frame = frame.convert('RGB')
+        
+        frame = imutils.resize(frame, width=600)
 
-                        return placeHolder[label]
+        (h, w) = frame.shape[: 2]
+        blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0, (300, 300), (104.0, 177.0, 123.0))
+                    
+        net.setInput(blob)
+        detections = net.forward()
+                    
+        for i in range(0, detections.shape[2]):
+            confidence = detections[0, 0, i, 2]
+                        
+            if len(detections) > 0:
+                i = np.argmax(detections[0, 0, :, 2])
+                confidence = detections[0, 0, i, 2]
+                            
+                if confidence > 0.5:
+                    box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
+                    (startX, startY, endX, endY) = box.astype("int")
+                    face = frame[startY:endY, startX:endX]
+                                
+                    startX = max(0, startX)
+                    startY = max(0, startY)
+                    endX = min(w, endX)
+                    endY = min(h, endY)
+                                
+                    face = frame[startY:endY, startX:endX]
+                    face = cv2.resize(face, (32, 32))
+                    face = face.astype("float") / 255.0
+                    face = img_to_array(face)
+                    face = np.expand_dims(face, axis=0)
+                                
+                    preds = model.predict(face)[0]
+                    j = np.argmax(preds)
+                    label = le.classes_[j]
+                                
+                    logging.info(label)
+
+                    return placeHolder[label]
