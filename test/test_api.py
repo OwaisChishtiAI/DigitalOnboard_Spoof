@@ -10,7 +10,7 @@ with open(str(Path(__file__).resolve().parent) + '/images/1.png', 'rb') as img_f
 r = requests.post("http://0.0.0.0:5000/v2/facereality",
                   data={'image': my_string})
 
-assert(r.status_code, "200")
+assert r.status_code==200
 
 # Passing in a fake Image
 with open(str(Path(__file__).resolve().parent) + '/images/57.png', 'rb') as img_file:
@@ -19,4 +19,4 @@ with open(str(Path(__file__).resolve().parent) + '/images/57.png', 'rb') as img_
 r = requests.post("http://0.0.0.0:5000/v2/facereality",
                   data={'image': my_string})
 
-assert(r.status_code, "403")
+assert r.status_code==403
