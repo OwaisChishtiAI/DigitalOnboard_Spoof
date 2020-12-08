@@ -1,4 +1,4 @@
-python==3.6.12
+# python.version = "3.6.12"
 imutils==0.5.3
 requests==2.25.0
 numpy==1.19.4
