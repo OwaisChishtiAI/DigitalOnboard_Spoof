@@ -37,7 +37,7 @@ class CheckReality:
     def __init__(self, frame):
         self.frame = frame
 
-    def ReturnLabel(self):
+    def return_label(self):
         placeHolder = {
             "real": 1,
             "fake": 0
