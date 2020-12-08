@@ -1,14 +1,14 @@
-from Test.Face_reality import check_reality
+from face_reality import CheckReality
 from flask import Flask, Response, jsonify, request
 
 app = Flask(__name__)
 
 
-@app.route('/facereality', methods=["POST"])
+@app.route('/v2/facereality', methods=["POST"])
 def faceReality():
     frame = request.form["image"]
 
-    temp = check_reality(frame).returnLabel()
+    temp = CheckReality(frame).return_label()
 
     if (temp):
         return "", 200
