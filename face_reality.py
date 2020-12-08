@@ -26,7 +26,7 @@ def _base64_to_image(base_string):
     base_string = base64.b64decode(base_string)
     base_string = io.BytesIO(base_string)
     base_string = Image.open(base_string)
-    base_string = base_string.convert('RGB')
+    # base_string = base_string.convert('RGB')
     base_string = np.array(base_string)
     base_string = base_string[:, :, ::-1].copy()
 
