@@ -4,7 +4,7 @@ from flask import Flask, Response, jsonify, request
 app = Flask(__name__)
 
 
-@app.route('/facereality', methods=["POST"])
+@app.route('/v2/facereality', methods=["POST"])
 def faceReality():
     frame = request.form["image"]
 
