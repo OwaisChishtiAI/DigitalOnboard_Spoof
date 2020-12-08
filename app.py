@@ -8,7 +8,7 @@ app = Flask(__name__)
 def faceReality():
     frame = request.form["image"]
 
-    temp = CheckReality(frame).ReturnLabel()
+    temp = CheckReality(frame).return_label()
 
     if (temp):
         return "", 200
